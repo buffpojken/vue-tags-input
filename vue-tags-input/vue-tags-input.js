@@ -179,9 +179,6 @@ export default {
       clearTimeout(this.deletionMarkTime);
       this.tagsCopy.splice(index, 1);
 
-      // Special update for the parent if .sync is on
-      if (this._events['update:tags']) this.$emit('update:tags', this.tagsCopy);
-
       /**
        * @description Emits if the tags array changes
        * @name tags-changed
@@ -270,9 +267,6 @@ export default {
         this.$emit('input', '');
         this.tagsCopy.push(tag);
 
-        // Special update for the parent if .sync is on
-        if (this._events['update:tags']) this.$emit('update:tags', this.tagsCopy);
-
         // if the tag was added by autocomplete, focus the input
         if (source === 'autocomplete') this.$refs.newTagInput.focus();
 
@@ -330,9 +324,6 @@ export default {
       this.$set(this.tagsCopy, index, tag);
       this.toggleEditMode(index);
 
-      // Special update for the parent if .sync is on
-      if (this._events['update:tags']) this.$emit('update:tags', this.tagsCopy);
-
       this.$emit('tags-changed', this.tagsCopy);
     },
     tagsEqual() {
@@ -344,17 +335,12 @@ export default {
       this.$emit('input', value);
     },
     initTags() {
+
       // We always work with a copy of the "real" tags, to easier edit them
       this.tagsCopy = createTags(this.tags, this.validation, this.isDuplicate);
 
       // Let's create an array which defines whether a tag is in edit mode or not
       this.tagsEditStatus = clone(this.tags).map(() => false);
-
-      // We check if the original and the copied and validated tags are equal →
-      // Update the parent if not and sync is on.
-      if (this._events['update:tags'] && !this.tagsEqual()) {
-        this.$emit('update:tags', this.tagsCopy);
-      }
     },
     blurredOnClick(e) {
       // if the click occurs on tagsinput → don't hide
@@ -395,7 +381,7 @@ export default {
     // We add a event listener to hide autocomplete on blur
     document.addEventListener('click', this.blurredOnClick);
   },
-  destroyed() {
+  unmounted() {
     document.removeEventListener('click', this.blurredOnClick);
   },
 };
