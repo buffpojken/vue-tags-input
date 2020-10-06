@@ -37,9 +37,6 @@
   "peerDependencies": {
     "vue": "3.x"
   },
-  "dependencies": {
-    "vue": "^3.0.0"
-  },
   "devDependencies": {
     "@babel/core": "^7.1.2",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
@@ -80,7 +77,8 @@
     "webpack": "^4.44.2",
     "webpack-bundle-analyzer": "^3.0.3",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": ""
+    "webpack-dev-server": "",
+    "vue": "^3.0.0"
   },
   "eslintConfig": {
     "parserOptions": {
